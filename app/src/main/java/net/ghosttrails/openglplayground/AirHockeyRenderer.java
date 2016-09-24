@@ -52,6 +52,16 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
 
         float[] tableVertices = {
 
+                // Border Triangle 1
+                -0.55f, -0.55f,
+                0.55f, 0.55f,
+                -0.55f, 0.55f,
+
+                // Border Triangle 2
+                -0.55f, -0.55f,
+                0.55f, -0.55f,
+                0.55f, 0.55f,
+
                 // Triangle 1
                 -0.5f, -0.5f,
                 0.5f, 0.5f,
@@ -115,19 +125,23 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
         // Clear the rendering surface
         glClear(GL_COLOR_BUFFER_BIT);
 
+        // Draw border
+        glUniform4f(uColorLocation, 0.8f, 1.0f, 1.0f, 1.0f);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+
         // Draw table
         glUniform4f(uColorLocation, 1.0f, 1.0f, 1.0f, 1.0f);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
+        glDrawArrays(GL_TRIANGLES, 6, 6);
 
         // Draw dividing line
         glUniform4f(uColorLocation, 1.0f, 0.0f, 0.0f, 1.0f);
-        glDrawArrays(GL_LINES, 6, 2);
+        glDrawArrays(GL_LINES, 12, 2);
 
         // Draw Mallets
         glUniform4f(uColorLocation, 0.0f, 0.0f, 1.0f, 1.0f);
-        glDrawArrays(GL_POINTS, 8, 1);
+        glDrawArrays(GL_POINTS, 14, 1);
         glUniform4f(uColorLocation, 0.0f, 1.0f, 0.0f, 1.0f);
-        glDrawArrays(GL_POINTS, 9, 1);
+        glDrawArrays(GL_POINTS, 15, 1);
 
 
 
