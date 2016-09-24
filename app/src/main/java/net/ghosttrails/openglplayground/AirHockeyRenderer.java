@@ -129,7 +129,5 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
         glUniform4f(uColorLocation, 0.0f, 1.0f, 0.0f, 1.0f);
         glDrawArrays(GL_POINTS, 9, 1);
 
-
-
     }
 }
