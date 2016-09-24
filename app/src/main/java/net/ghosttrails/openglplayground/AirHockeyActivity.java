@@ -9,7 +9,7 @@ public class AirHockeyActivity extends OpenGLBaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        renderer = new AirHockeyRenderer();
+        renderer = new AirHockeyRenderer(this);
         super.onCreate(savedInstanceState);
     }
 }
