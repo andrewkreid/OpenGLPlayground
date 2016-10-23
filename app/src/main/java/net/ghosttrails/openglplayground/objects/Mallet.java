@@ -1,6 +1,7 @@
 package net.ghosttrails.openglplayground.objects;
 
 import net.ghosttrails.openglplayground.data.VertexArray;
+import net.ghosttrails.openglplayground.programs.ColorShaderProgram;
 
 import static android.opengl.GLES20.GL_POINTS;
 import static android.opengl.GLES20.glDrawArrays;

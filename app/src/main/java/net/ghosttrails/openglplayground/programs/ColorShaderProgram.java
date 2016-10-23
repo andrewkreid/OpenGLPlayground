@@ -9,7 +9,7 @@ import static android.opengl.GLES20.glGetUniformLocation;
 import static android.opengl.GLES20.glUniformMatrix4fv;
 
 /**
- * Created by andrewr on 23/10/16.
+ * Represents the simple color shader.
  */
 
 public class ColorShaderProgram extends ShaderProgram {

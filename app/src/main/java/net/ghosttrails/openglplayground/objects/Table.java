@@ -1,6 +1,7 @@
 package net.ghosttrails.openglplayground.objects;
 
 import net.ghosttrails.openglplayground.data.VertexArray;
+import net.ghosttrails.openglplayground.programs.TextureShaderProgram;
 
 import static android.opengl.GLES20.GL_TRIANGLE_FAN;
 import static android.opengl.GLES20.glDrawArrays;
@@ -44,7 +45,7 @@ public class Table {
 
         vertexArray.setVertexAttribPointer(
                 POSITION_COMPONENT_COUNT,
-                textureProgram.getTextureCoordinatesAttributeLocation(),
+                textureProgram.getaTextureCoordinatesAttributeLocation(),
                 TEXTURE_COORDINATES_COMPONENT_COUNT,
                 STRIDE
         );
