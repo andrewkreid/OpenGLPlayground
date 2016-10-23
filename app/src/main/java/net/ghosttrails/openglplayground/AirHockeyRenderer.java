@@ -19,7 +19,6 @@ import static android.opengl.GLES20.GL_COLOR_BUFFER_BIT;
 import static android.opengl.GLES20.GL_FLOAT;
 import static android.opengl.GLES20.GL_LINES;
 import static android.opengl.GLES20.GL_POINTS;
-import static android.opengl.GLES20.GL_TRIANGLES;
 import static android.opengl.GLES20.GL_TRIANGLE_FAN;
 import static android.opengl.GLES20.glClear;
 import static android.opengl.GLES20.glClearColor;
@@ -27,13 +26,11 @@ import static android.opengl.GLES20.glDrawArrays;
 import static android.opengl.GLES20.glEnableVertexAttribArray;
 import static android.opengl.GLES20.glGetAttribLocation;
 import static android.opengl.GLES20.glGetUniformLocation;
-import static android.opengl.GLES20.glUniform4f;
 import static android.opengl.GLES20.glUniformMatrix4fv;
 import static android.opengl.GLES20.glUseProgram;
 import static android.opengl.GLES20.glVertexAttribPointer;
 import static android.opengl.GLES20.glViewport;
 import static android.opengl.Matrix.multiplyMM;
-import static android.opengl.Matrix.orthoM;
 import static android.opengl.Matrix.rotateM;
 import static android.opengl.Matrix.setIdentityM;
 import static android.opengl.Matrix.translateM;
@@ -60,7 +57,8 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
     private int aColorLocation;
     private int uMatrixLocation;
 
-    private final float[] projectionMatrix = new float[16];
+    private final float[] initialProjectionMatrix = new float[16];
+    private final float[] finalProjectionMatrix = new float[16];
     private final float[] modelMatrix = new float[16];
 
     AirHockeyRenderer(Context context) {
@@ -131,26 +129,32 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
         // Set the OpenGL viewport to fill the entire surface
         glViewport(0, 0, width, height);
 
-        MatrixHelper.perspectiveM(projectionMatrix, 45, (float) width / (float) height, 1f, 10f);
+        MatrixHelper.perspectiveM(initialProjectionMatrix, 45, (float) width / (float) height, 1f, 10f);
 
-        setIdentityM(modelMatrix, 0);
-        translateM(modelMatrix, 0, 0f, 0f, -2.5f);
-        rotateM(modelMatrix, 0, -60f, 1f, 0f, 0f);
-
-        // multiply projectionMatrix and modelMatrix together and copy result back into
-        // projectionMatrix.
-        final float[] temp = new float[16];
-        multiplyMM(temp, 0, projectionMatrix, 0, modelMatrix, 0);
-        System.arraycopy(temp, 0, projectionMatrix, 0, temp.length);
     }
 
     @Override
     public void onDrawFrame(GL10 gl) {
+
+        long ms = System.currentTimeMillis() % 2000;
+        if (ms >= 1000) {
+            ms = 1000 - (ms - 1000);
+            // ms *= -1;
+        }
+        float anim = -20f + (float) (ms) * 0.04f;
+        // animate the model matrix
+        calculateModelMatrix(-60f + anim);
+
+        // multiply finalProjectionMatrix and modelMatrix together and copy result back into
+        // finalProjectionMatrix.
+        final float[] temp = new float[16];
+        multiplyMM(temp, 0, initialProjectionMatrix, 0, modelMatrix, 0);
+        System.arraycopy(temp, 0, finalProjectionMatrix, 0, temp.length);
         // Clear the rendering surface
         glClear(GL_COLOR_BUFFER_BIT);
 
         // Set up the ortho projection.
-        glUniformMatrix4fv(uMatrixLocation, 1, false, projectionMatrix, 0);
+        glUniformMatrix4fv(uMatrixLocation, 1, false, finalProjectionMatrix, 0);
 
         // Draw table
         glDrawArrays(GL_TRIANGLE_FAN, 0, 6);
@@ -162,4 +166,12 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
         glDrawArrays(GL_POINTS, 8, 1);
         glDrawArrays(GL_POINTS, 9, 1);
     }
+
+    private void calculateModelMatrix(float angledegrees) {
+        setIdentityM(modelMatrix, 0);
+        translateM(modelMatrix, 0, 0f, 0f, -2.5f);
+        rotateM(modelMatrix, 0, angledegrees, 1f, 0f, 0f);
+
+    }
+
 }
