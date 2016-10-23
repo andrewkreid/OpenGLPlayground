@@ -122,4 +122,27 @@ public class ShaderHelper {
 
         return shaderObjectId;
     }
+
+    /**
+     * Helper function to compile and link a vertex and fragment shader into a program.
+     * @param vertexShaderSource source of the vertex shader
+     * @param fragmentShaderSource source of the fragment shader.
+     * @return the program id - 0 if failed.
+     */
+    public static int buildProgram(String vertexShaderSource, String fragmentShaderSource) {
+        int program;
+
+        // Compile the shaders.
+        int vertexShader = compileVertexShader(vertexShaderSource);
+        int fragmentShader = compileFragmentShader(fragmentShaderSource);
+
+        // link them into a shader program
+        program = linkProgram(vertexShader, fragmentShader);
+
+        if (LoggerConfig.ON) {
+            validateProgram(program);
+        }
+
+        return program;
+    }
 }
