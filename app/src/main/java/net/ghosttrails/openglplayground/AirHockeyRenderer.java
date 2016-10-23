@@ -37,13 +37,13 @@ import static android.opengl.Matrix.orthoM;
 import static android.opengl.Matrix.rotateM;
 import static android.opengl.Matrix.setIdentityM;
 import static android.opengl.Matrix.translateM;
+import static net.ghosttrails.openglplayground.data.Constants.BYTES_PER_FLOAT;
 
 /**
  * AirHockey Renderer
  */
 public class AirHockeyRenderer implements GLSurfaceView.Renderer {
 
-    private static final int BYTES_PER_FLOAT = 4;
     private static final int POSITION_COMPONENT_COUNT = 2;
     private static final int COLOR_COMPONENT_COUNT = 3;
     private static final int STRIDE =

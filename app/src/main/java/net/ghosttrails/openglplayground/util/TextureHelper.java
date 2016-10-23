@@ -68,7 +68,7 @@ public class TextureHelper {
         // load the bitmap into OpenGL
         texImage2D(GL_TEXTURE_2D, 0, bitmap, 0);
         bitmap.recycle();
-        
+
         glGenerateMipmap(GL_TEXTURE_2D);
 
         // unbind
