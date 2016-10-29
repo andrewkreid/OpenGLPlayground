@@ -7,25 +7,24 @@ import net.ghosttrails.openglplayground.util.Geometry;
 import java.util.List;
 
 /**
- * Geometry for Air Hockey mallets
+ * Geometry for the hockey puck.
  */
 
-public class Mallet {
-
+public class Puck {
     private static final int POSITION_COMPONENT_COUNT = 3;
 
-    public final float radius;
-    public final float height;
+    public final float radius, height;
 
     private final VertexArray vertexArray;
     private final List<ObjectBuilder.DrawCommand> drawList;
 
-    public Mallet(float radius, float height, int numPointsAroundMallet) {
-        ObjectBuilder.GeneratedData generatedData = ObjectBuilder.createMallet(
-                new Geometry.Point(0f, 0f, 0f), radius, height, numPointsAroundMallet);
-
+    public Puck(float radius, float height, int numPointsAroundPuck) {
         this.radius = radius;
         this.height = height;
+
+        ObjectBuilder.GeneratedData generatedData = ObjectBuilder.createPuck(
+                new Geometry.Cylinder(new Geometry.Point(0f, 0f, 0f), radius, height),
+                numPointsAroundPuck);
 
         vertexArray = new VertexArray(generatedData.vertexData);
         drawList = generatedData.drawList;
@@ -38,7 +37,7 @@ public class Mallet {
     }
 
     public void draw() {
-        for (ObjectBuilder.DrawCommand drawCommand: drawList) {
+        for(ObjectBuilder.DrawCommand drawCommand: drawList) {
             drawCommand.draw();
         }
     }
