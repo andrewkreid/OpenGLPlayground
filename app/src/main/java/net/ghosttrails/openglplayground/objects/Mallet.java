@@ -12,7 +12,7 @@ import java.util.List;
 
 public class Mallet {
 
-    private static final int POSITION_COMPONENT_COUNT = 2;
+    private static final int POSITION_COMPONENT_COUNT = 3;
 
     public final float radius;
     public final float height;
