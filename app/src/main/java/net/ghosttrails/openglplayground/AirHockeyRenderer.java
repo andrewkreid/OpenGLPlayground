@@ -2,6 +2,7 @@ package net.ghosttrails.openglplayground;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView;
+import android.util.Log;
 
 import net.ghosttrails.openglplayground.objects.Mallet;
 import net.ghosttrails.openglplayground.objects.Puck;
@@ -29,6 +30,7 @@ import static android.opengl.Matrix.translateM;
  */
 public class AirHockeyRenderer implements GLSurfaceView.Renderer {
 
+    private final static String TAG = "AirHockeyRenderer";
     private final Context context;
 
     private final float[] viewMatrix = new float[16];
@@ -118,5 +120,13 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
         setIdentityM(modelMatrix, 0);
         translateM(modelMatrix, 0, x, y, z);
         multiplyMM(modelViewProjectionMatrix, 0, viewProjectionMatrix, 0, modelMatrix, 0);
+    }
+
+    void handleTouchPress(float normalizedX, float normalizedY) {
+        Log.i(TAG, "handleTouchPress, " + normalizedX + ", " + normalizedY);
+    }
+
+    void handleTouchDrag(float normalizedX, float normalizedY) {
+        Log.i(TAG, "handleTouchDrag, " + normalizedX + ", " + normalizedY);
     }
 }
