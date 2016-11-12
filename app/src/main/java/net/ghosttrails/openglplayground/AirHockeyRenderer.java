@@ -10,6 +10,7 @@ import net.ghosttrails.openglplayground.objects.Table;
 import net.ghosttrails.openglplayground.programs.ColorShaderProgram;
 import net.ghosttrails.openglplayground.programs.TextureShaderProgram;
 import net.ghosttrails.openglplayground.util.Geometry;
+import net.ghosttrails.openglplayground.util.Geometry.Vector;
 import net.ghosttrails.openglplayground.util.MatrixHelper;
 import net.ghosttrails.openglplayground.util.TextureHelper;
 
@@ -111,7 +112,7 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
         mallet.bindData(colorProgram);
         mallet.draw();
 
-        positionObjectInScene(0f, mallet.height / 2f, 0.4f);
+        positionObjectInScene(blueMalletPosition.x, blueMalletPosition.y, blueMalletPosition.z);
         colorProgram.setUniforms(modelViewProjectionMatrix, 0f, 0f, 1f);
         mallet.draw();
 
@@ -183,6 +184,15 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
     }
 
     void handleTouchDrag(float normalizedX, float normalizedY) {
-        Log.i(TAG, "handleTouchDrag, " + normalizedX + ", " + normalizedY);
+        if (malletPressed) {
+            Ray ray = convertNormalized2DPointToRay(normalizedX, normalizedY);
+            // Define a place representing the hosckey table
+            Geometry.Plane plane = new Geometry.Plane(new Point(0, 0, 0), new Vector(0, 1, 0));
+            // Find out where the touched point intersects the plane representing our table.
+            // We'll move the mallet along this plane.
+            Point touchedPoint = Geometry.intersectionPoint(ray, plane);
+            blueMalletPosition = new Point(touchedPoint.x, mallet.height / 2f, touchedPoint.z);
+        }
+        Log.i(TAG, "handleTouchDrag, " + normalizedX + ", " + normalizedY + ", " + malletPressed);
     }
 }

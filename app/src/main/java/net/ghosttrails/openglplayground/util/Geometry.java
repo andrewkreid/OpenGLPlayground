@@ -81,6 +81,14 @@ public class Geometry {
                     (z * other.x) - (x * other.z),
                     (x * other.y) - (y * other.x));
         }
+
+        public float dotProduct(Vector other) {
+            return x * other.x + y * other.y + z * other.z;
+        }
+
+        public Vector scale(float f) {
+            return new Vector(x * f, y * f, z * f);
+        }
     }
 
     public static class Sphere {
@@ -91,6 +99,26 @@ public class Geometry {
             this.center = center;
             this.radius= radius;
         }
+    }
+
+    public static class Plane {
+        public final Point point;
+        public final Vector normal;
+
+        public Plane(Point point, Vector normal) {
+            this.point = point;
+            this.normal = normal;
+        }
+    }
+
+    public static Point intersectionPoint(Ray ray, Plane plane) {
+        Vector rayToPlaneVector = vectorBetween(ray.point, plane.point);
+
+        float scaleFactor = rayToPlaneVector.dotProduct(plane.normal)
+                / ray.vector.dotProduct(plane.normal);
+
+        Point intersectionPoint = ray.point.translate(ray.vector.scale(scaleFactor));
+        return intersectionPoint;
     }
 
     public static Vector vectorBetween(Point from, Point to) {
