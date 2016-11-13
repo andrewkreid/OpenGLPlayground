@@ -7,6 +7,8 @@ import android.opengl.GLSurfaceView;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.Toast;
 
 /**
@@ -36,6 +38,7 @@ public class OpenGLBaseActivity extends AppCompatActivity {
                     Toast.LENGTH_LONG).show();
             return;
         }
+
         setContentView(glSurfaceView);
     }
 
