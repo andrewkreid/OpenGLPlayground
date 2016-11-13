@@ -58,6 +58,12 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
 
     private int texture;
 
+    // Table bounds
+    private final float leftBound = -0.5f;
+    private final float rightBound = 0.5f;
+    private final float farBound = -0.8f;
+    private final float nearBound = 0.8f;
+
     AirHockeyRenderer(Context context) {
         this.context = context;
     }
@@ -191,8 +197,19 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
             // Find out where the touched point intersects the plane representing our table.
             // We'll move the mallet along this plane.
             Point touchedPoint = Geometry.intersectionPoint(ray, plane);
-            blueMalletPosition = new Point(touchedPoint.x, mallet.height / 2f, touchedPoint.z);
+            blueMalletPosition = new Point(
+                    clamp(touchedPoint.x,
+                            leftBound + mallet.radius,
+                            rightBound - mallet.radius),
+                    mallet.height / 2f,
+                    clamp(touchedPoint.z,
+                            0f + mallet.radius,
+                            nearBound - mallet.radius));
         }
         Log.i(TAG, "handleTouchDrag, " + normalizedX + ", " + normalizedY + ", " + malletPressed);
+    }
+
+    private float clamp(float value, float min, float max) {
+        return Math.min(max, Math.max(value, min));
     }
 }

@@ -1,7 +1,7 @@
 package net.ghosttrails.openglplayground.util;
 
 /**
- * Created by andrewr on 29/10/16.
+ * Geometry utility classes and methods.
  */
 
 public class Geometry {
